@@ -1,0 +1,1 @@
+kubectl logs -f $(kubectl get pod -n alibaba | grep launcher | grep alibaba | awk '{ print $1}' )  -n alibaba
