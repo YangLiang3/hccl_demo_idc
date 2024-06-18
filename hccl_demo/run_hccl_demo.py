@@ -408,7 +408,6 @@ class DemoTest:
         '''The following method is used in order to run HCCL demo test in pure mode.
            HCCL demo will invoke as many processes as were requested by the user.'''
         try:
-            self.log_info("YangLiang's code command line:", 'green')
             self.log_info("HCCL demo test command line:", 'green')
             self.log_info('\n\n'.join(self.cmd_list))
             pool = Pool(processes=self.nranks)
@@ -432,7 +431,6 @@ class DemoTest:
     def run_mpi_test(self):
         '''# MPI helper method
            The following method is used in order to run HCCL demo test using MPI.'''
-        self.log_info("YangLiang's code run mpi test command line:", 'green')
         mpi_cmd = self.cmd_list[0]
         mpi_cmd += " hccl_demo"
         self.run_mpi_command(mpi_cmd)
