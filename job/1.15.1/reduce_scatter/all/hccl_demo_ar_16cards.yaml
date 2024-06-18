@@ -1,10 +1,10 @@
 apiVersion: kubeflow.org/v2beta1
 kind: MPIJob
 metadata:
-  name: alibaba-hccl-ar-64
+  name: alibaba-hccl-ar-16
   namespace: alibaba
   labels:
-    app: alibaba-hccl-ar-64
+    app: alibaba-hccl-ar-16
 spec:
   slotsPerWorker: 8
   runPolicy:
@@ -34,11 +34,9 @@ spec:
                   declare -xr MODEL_PATH="${HOME_DIR}/hccl_demo_idc/hccl_demo";
                   declare -xr RESULT_DESCRIPTION="all";
                   declare -xr SYNAPSE_VERSION="1.15.1";
-                  declare -xr HCCL_TEST=all_reduce;
+                  declare -xr HCCL_TEST=reduce_scatter;
                   declare -xr HCCL_LOOP=1000;
                   declare -xr HCCL_SIZE=256M;
-                  declare -xr HCCL_GROUP_MODE=1;
-                  declare -xr HCCL_MPI_NODE=8;
                   declare -xr DEBUG=True;
 
                   declare -xr CONGESTION_WINDOW=False;
@@ -55,7 +53,7 @@ spec:
                   $WORKER_DIR/launch/run_hccl_demo.sh;
 
     Worker:
-      replicas: 8
+      replicas: 2
       template:
         spec:
           affinity:

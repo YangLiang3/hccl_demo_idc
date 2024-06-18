@@ -34,11 +34,11 @@ spec:
                   declare -xr MODEL_PATH="${HOME_DIR}/hccl_demo_idc/hccl_demo";
                   declare -xr RESULT_DESCRIPTION="all";
                   declare -xr SYNAPSE_VERSION="1.15.1";
-                  declare -xr HCCL_TEST=all_reduce;
+                  declare -xr HCCL_TEST=all2all;
                   declare -xr HCCL_LOOP=1000;
                   declare -xr HCCL_SIZE=256M;
                   declare -xr HCCL_GROUP_MODE=1;
-                  declare -xr HCCL_MPI_NODE=8;
+                  declare -xr HCCL_MPI_NODE=32;
                   declare -xr DEBUG=True;
 
                   declare -xr CONGESTION_WINDOW=False;
@@ -55,7 +55,7 @@ spec:
                   $WORKER_DIR/launch/run_hccl_demo.sh;
 
     Worker:
-      replicas: 8
+      replicas: 32
       template:
         spec:
           affinity:
@@ -75,6 +75,31 @@ spec:
                           - 2g12u23m18
                           - 2g18u11m20
                           - 2h08u11m26
+                          - 2h08u23m26
+                          - 2h10u11m25
+                          - 2h11u11m25
+                          - 2h11u23m25
+                          - 2h12u23m25
+                          - 2h13u11m24
+                          - 2h14u11m24
+                          - 2h14u23m24
+                          - 2h15u11m24
+                          - 2h15u23m24
+                          - 2h16u11m24
+                          - 2h17u23m31
+                          - 2h18u11m31
+                          - 2h18u23m31
+                          - 2h20u11m31
+                          - 2h25u11m29
+                          - 2h25u23m29
+                          - 2h27u11m29
+                          - 2h27u23m29
+                          - 2h28u11m29
+                          - 2h28u23m29
+                          - 2h29u11m28
+                          - 2h29u23m28
+                          - 2h30u11m28
+                          - 2h30u23m28
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                   - matchExpressions:
