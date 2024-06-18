@@ -43,9 +43,9 @@ if [ "$HCCL_SPRAY" = "True" ]; then
         HCCL_SPRAY_CMD="-x HCL_SCALE_OUT_QP_SETS=2 -x EXP_FLAGS=true";
 fi
 
-if [ "$HCCL_TEST" = "send_recv" ]; then
-        SEND_RECV_ARGS="--ranks_list $RANKS_LIST";
-fi
+# if [ "$HCCL_TEST" = "send_recv" ]; then
+       # SEND_RECV_ARGS="--ranks_list $RANKS_LIST";
+# fi
 
 EXTRA_ARGS="${EXTRA_ARGS:-}";
 
