@@ -37,8 +37,6 @@ spec:
                   declare -xr HCCL_TEST=all_reduce;
                   declare -xr HCCL_LOOP=1000;
                   declare -xr HCCL_SIZE=256M;
-                  declare -xr HCCL_GROUP_MODE=1;
-                  declare -xr HCCL_MPI_NODE=2;
                   declare -xr DEBUG=True;
 
                   declare -xr CONGESTION_WINDOW=False;
@@ -58,16 +56,30 @@ spec:
       replicas: 2
       template:
         spec:
-         affinity:
+          affinity:
             nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 1
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - 2h08u11m26
+                          - 2f21u23m14
+                          - 2f31u23m12
+                          - 2f32u23m12
+                          - 2g12u11m18
+                          - 2g12u23m18
+                          - 2g18u11m20
+                          - 2h08u11m26
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                   - matchExpressions:
                       - key: kubernetes.io/hostname
-                        operator: In
+                        operator: NotIn
                         values:
-                          - 2h27u23m29
-                          - 2h28u11m29
+                          - xxx
           volumes:
             - name: work-dir
               persistentVolumeClaim:
