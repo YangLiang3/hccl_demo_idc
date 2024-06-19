@@ -34,7 +34,7 @@ spec:
                   declare -xr MODEL_PATH="${HOME_DIR}/hccl_demo_idc/hccl_demo";
                   declare -xr RESULT_DESCRIPTION="all";
                   declare -xr SYNAPSE_VERSION="1.15.1";
-                  declare -xr HCCL_TEST=all_reduce;
+                  declare -xr HCCL_TEST=all_gather;
                   declare -xr HCCL_LOOP=1000;
                   declare -xr HCCL_SIZE=256M;
                   declare -xr DEBUG=True;
