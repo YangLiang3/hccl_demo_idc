@@ -83,6 +83,23 @@ spec:
                           - 2h13u11m24
                           - 2h14u11m24
                           - 2h14u23m24
+                          - 2h15u11m24
+                          - 2h15u23m24
+                          - 2h16u11m24
+                          - 2h17u23m31
+                          - 2h18u11m31
+                          - 2h18u23m31
+                          - 2h20u11m31
+                          - 2h25u11m29
+                          - 2h25u23m29
+                          - 2h27u11m29
+                          - 2h27u23m29
+                          - 2h28u11m29
+                          - 2h28u23m29
+                          - 2h29u11m28
+                          - 2h29u23m28
+                          - 2h30u11m28
+                          - 2h30u23m28
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                   - matchExpressions:
