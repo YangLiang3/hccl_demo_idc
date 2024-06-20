@@ -347,9 +347,9 @@ class DemoTest:
                     cmd_args.append("HCCL_BOX_SIZE=" + str(1))
                     cmd_args.append("HCCL_COMM_ID=" + str(addr) + ":" + str(port_num + id))
                     cmd_args.append("HCCL_SPLIT_INDEX=" + str(id))
-            # else:
-            #    self.mpi_node = self.parse_mpi_node_args()
-            #    cmd_args.append("HCCL_MPI_NODE=" + str(self.mpi_node))
+            else:
+                #    self.mpi_node = self.parse_mpi_node_args()
+                cmd_args.append("HCCL_MPI_NODE=" + str(self.mpi_node))
 
             cmd_args.append(self.demo_exe)
             cmd = " ".join(cmd_args)
