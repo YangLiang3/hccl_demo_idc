@@ -1,10 +1,10 @@
 apiVersion: kubeflow.org/v2beta1
 kind: MPIJob
 metadata:
-  name: alibaba-hccl-ar-256
+  name: alibaba-hccl-ar-256-size-range
   namespace: alibaba
   labels:
-    app: alibaba-hccl-ar-256
+    app: alibaba-hccl-ar-256-size-range
 spec:
   slotsPerWorker: 8
   runPolicy:
@@ -36,7 +36,7 @@ spec:
                   declare -xr SYNAPSE_VERSION="1.15.1";
                   declare -xr HCCL_TEST=all_reduce;
                   declare -xr HCCL_LOOP=1000;
-                  declare -xr HCCL_SIZE_RANGE=4M 1G;
+                  declare -xr SIZE_RANGE="4M 1G";
                   declare -xr DEBUG=True;
 
                   declare -xr CONGESTION_WINDOW=False;
