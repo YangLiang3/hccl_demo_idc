@@ -1,0 +1,113 @@
+apiVersion: kubeflow.org/v2beta1
+kind: MPIJob
+metadata:
+  name: alibaba-hccl-ar-8
+  namespace: alibaba
+  labels:
+    app: alibaba-hccl-ar-8
+spec:
+  slotsPerWorker: 8
+  runPolicy:
+    cleanPodPolicy: Running
+  mpiReplicaSpecs:
+    Launcher:
+      replicas: 1
+      template:
+        spec:
+          volumes:
+            - name: work-dir
+              persistentVolumeClaim:
+                claimName: alibaba-fs-pvc
+
+          containers:
+            - image: vault.habana.ai/gaudi-docker/1.15.1/ubuntu22.04/habanalabs/pytorch-installer-2.2.0:latest
+              name: alibaba-hccl-demo-launcher
+              imagePullPolicy: Always
+              volumeMounts:
+                - name: work-dir
+                  mountPath: /mnt/weka/alibaba
+              command: ["/bin/bash", "-c"]
+              args:
+                - >-
+                  declare -xr HOME_DIR='/mnt/weka/alibaba';
+                  declare -xr WORKER_DIR="${HOME_DIR}/hccl_demo_idc";
+                  declare -xr MODEL_PATH="${HOME_DIR}/hccl_demo_idc/hccl_demo";
+                  declare -xr RESULT_DESCRIPTION="all";
+                  declare -xr SYNAPSE_VERSION="1.15.1";
+                  declare -xr HCCL_TEST=reduce_scatter;
+                  declare -xr HCCL_LOOP=1000;
+                  declare -xr HCCL_SIZE=256M;
+                  declare -xr DEBUG=True;
+
+                  declare -xr CONGESTION_WINDOW=False;
+
+                  rm -rf ${WORKER_DIR};
+                  mkdir -p ${WORKER_DIR};
+                  git clone https://github.com/YangLiang3/hccl_demo_idc.git ${WORKER_DIR};
+
+                  mpirun  --npernode 1 --tag-output --allow-run-as-root \
+                    --prefix $MPI_ROOT \
+                    -x WORKER_DIR=$WORKER_DIR \
+                    $WORKER_DIR/launch/setup.sh;
+
+                  $WORKER_DIR/launch/run_hccl_demo.sh;
+
+    Worker:
+      replicas: 1
+      template:
+        spec:
+          affinity:
+            nodeAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 1
+                  preference:
+                    matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: In
+                        values:
+                          - 2h08u11m26
+                          - 2f21u23m14
+                          - 2f31u23m12
+                          - 2f32u23m12
+                          - 2g12u11m18
+                          - 2g12u23m18
+                          - 2g18u11m20
+                          - 2h08u11m26
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: kubernetes.io/hostname
+                        operator: NotIn
+                        values:
+                          - xxx
+          volumes:
+            - name: work-dir
+              persistentVolumeClaim:
+                claimName: alibaba-fs-pvc
+
+          tolerations:
+            - key: "habana.ai/gaudi"
+              operator: "Exists"
+              effect: "NoSchedule"
+            - key: "k8s/namespace"
+              operator: "Equal"
+              value: "alibaba"
+              effect: "NoSchedule"
+          containers:
+            - image: vault.habana.ai/gaudi-docker/1.15.1/ubuntu22.04/habanalabs/pytorch-installer-2.2.0:latest
+              name: alibaba-hccl-demo-worker
+              imagePullPolicy: Always
+              resources:
+                limits:
+                  habana.ai/gaudi: 8
+                  hugepages-2Mi: 300Gi
+                  memory: 700Gi
+                  cpu: 150
+                requests:
+                  habana.ai/gaudi: 8
+                  hugepages-2Mi: 300Gi
+                  memory: 700Gi
+                  cpu: 150
+              volumeMounts:
+                - name: work-dir
+                  mountPath: /mnt/weka/alibaba
