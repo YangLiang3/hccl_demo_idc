@@ -43,9 +43,6 @@ spec:
 
                   declare -xr CONGESTION_WINDOW=False;
 
-                  rm -rf ${WORKER_DIR};
-                  mkdir -p ${WORKER_DIR};
-                  git clone https://github.com/YangLiang3/hccl_demo_idc.git ${WORKER_DIR};
 
                   mpirun  --npernode 1 --tag-output --allow-run-as-root \
                     --prefix $MPI_ROOT \
